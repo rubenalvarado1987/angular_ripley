@@ -1,0 +1,111 @@
+<div class="grid-container">
+  <h1 class="mat-h1">Nuevo Destinatario</h1>
+  <mat-grid-list cols="1" rowHeight="350px">
+    <h2 *ngIf="post">
+      Destinatario creado correctamente.<mat-icon
+        aria-hidden="false"
+        aria-label="Example home icon"
+        >done_all</mat-icon
+      >
+    </h2>
+
+    <form
+      [formGroup]="formGroup"
+      (ngSubmit)="onSubmit(formGroup.value)"
+      class="form"
+      *ngIf="!post"
+    >
+      <mat-form-field class="form-element">
+        <input matInput placeholder="Rut" formControlName="rut" />
+        <mat-error
+          *ngIf="
+            !formGroup.controls['rut'].valid &&
+            formGroup.controls['rut'].touched
+          "
+        >
+          Debe ingresar un Rut válido sin puntos y sin dígito verificador
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="form-element">
+        <input matInput placeholder="Nombre" formControlName="name" />
+        <mat-error *ngIf="!name.valid && name.touched">
+          {{ titleAlert }}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="form-element">
+        <input matInput placeholder="Email" formControlName="email" />
+        <mat-error
+          *ngIf="
+            !formGroup.controls['email'].valid &&
+            formGroup.controls['email'].touched
+          "
+        >
+          {{ getErrorEmail() }}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="form-element">
+        <input matInput placeholder="Telefono" formControlName="phone" />
+        <mat-error
+          *ngIf="
+            !formGroup.controls['phone'].valid &&
+            formGroup.controls['phone'].touched
+          "
+        >
+          {{ titleAlert }}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="form-element">
+        <input
+          matInput
+          placeholder="Nº de Cuenta"
+          formControlName="numberAcount"
+        />
+        <mat-error
+          *ngIf="
+            !formGroup.controls['numberAcount'].valid &&
+            formGroup.controls['numberAcount'].touched
+          "
+        >
+          {{ titleAlert }}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="form-element" *ngIf="bancs">
+        <mat-label>Banco</mat-label>
+        <mat-select placeholder="Banco" formControlName="banc">
+          <mat-option *ngFor="let b of bancs.banks" value="{{ b.id }}">{{
+            b.name
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="form-element">
+        <mat-label>Tipo de cuenta</mat-label>
+        <mat-select placeholder="Tipo de cuenta" formControlName="typeAcount">
+          <mat-option value="vista">Vista</mat-option>
+          <mat-option value="corriente">Cuenta Corriente</mat-option>
+          <mat-option value="ahorro">Cuenta de ahorro</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div class="form-element">
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          class="button"
+          [disabled]="!formGroup.valid"
+        >
+          Crear destinatario
+        </button>
+      </div>
+
+      <!-- {{formGroup.valid}}
+      {{formGroup.value | json  }} -->
+    </form>
+  </mat-grid-list>
+</div>

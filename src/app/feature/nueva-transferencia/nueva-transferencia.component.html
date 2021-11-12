@@ -1,0 +1,71 @@
+<div class="grid-container">
+  <h1 class="mat-h1">Nueva Transferencia</h1>
+  <mat-grid-list cols="1" rowHeight="350px">
+    <h2 *ngIf="post">
+      Transferencia realizada correctamente.<mat-icon
+        aria-hidden="false"
+        aria-label="Example home icon"
+        >done_all</mat-icon
+      >
+    </h2>
+
+    <form
+      [formGroup]="formGroup"
+      (ngSubmit)="onSubmit(formGroup.value)"
+      class="form"
+      *ngIf="!post"
+    >
+
+    <mat-form-field class="form-element" appearance="fill" *ngIf="options">
+      <mat-label>Nombre Destinatario</mat-label>
+      <input type="text"
+             placeholder="Seleccione uno"
+             aria-label="Destinatario"
+             matInput
+             formControlName="destinatario"
+             [matAutocomplete]="auto">
+      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+          {{option}}
+        </mat-option>
+      </mat-autocomplete>
+      <mat-error
+          *ngIf="
+            !formGroup.controls['destinatario'].valid &&
+            formGroup.controls['destinatario'].touched
+          "
+        >
+          Debe ingresar un destinatario Valido (Previamente creado).
+        </mat-error>
+    </mat-form-field>
+
+
+      <mat-form-field class="form-element">
+        <input matInput type="number" placeholder="Monto" formControlName="monto" />
+        <mat-error
+          *ngIf="
+            !formGroup.controls['monto'].valid &&
+            formGroup.controls['monto'].touched
+          "
+        >
+          Debe ingresar un monto valido
+        </mat-error>
+      </mat-form-field>
+
+      <div class="form-element">
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          class="button"
+          [disabled]="!formGroup.valid"
+        >
+          Realizar Transferencia
+        </button>
+      </div>
+
+      <!-- {{formGroup.valid}}
+      {{formGroup.value | json  }} -->
+    </form>
+  </mat-grid-list>
+</div>
